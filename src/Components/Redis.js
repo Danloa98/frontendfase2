@@ -11,13 +11,13 @@ function Redis() {
    const [players, setPlayers] = useState([]);
 
     const socket = useRef();
-    const baseUrl = "http://localhost:5000";
+    const baseUrl = "https://sopes1-341605.uc.r.appspot.com";
     let aux;
 
 
 
     useEffect(() => {
-        socket.current = io.connect("http://localhost:5000");
+        socket.current = io.connect("https://sopes1-341605.uc.r.appspot.com");
         console.log("Socket proc connected")
         const interval = setInterval(() => {
           //getInfo();
