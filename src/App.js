@@ -8,6 +8,8 @@ import {
   Route
 } from "react-router-dom";
 import Navbar from './Components/Navbar';
+import Redis from './Components/Redis';
+import Tidb from './Components/Tidb';
 
 
 function App() {
@@ -18,6 +20,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage/>} />
         <Route path="/Mongo" element={<Logs/>} />
+        <Route path="/Redis" element={<Redis/>} />
+        <Route path="/Tidb" element={<Tidb/>} />
+
       </Routes>
      
     </div>

@@ -13,6 +13,15 @@ export const Nav = styled.nav`
   /* justify-content: flex-start; */
 `;
 
+export const Nav2 = styled.nav`
+  height: 33px;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem calc((100vw - 1000px) / 2);
+  z-index: 10;
+`;
+
+
 export const Rectangulo = styled.nav`
   background: #EC6F66;
   height: 80px;
@@ -71,6 +80,18 @@ export const Contenedor = styled.nav`
   /* justify-content: flex-start; */
   overflow-y: scroll;
 `;
+export const ContenedorA = styled.nav`
+  height: 430px;
+  display: relative;
+  border: 4px solid black;
+  background: #ECE9E6;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FFFFFF, #ECE9E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  padding: 0.5rem calc((100vw - 1000px) / 2);
+  z-index: 10;
+  overflow-y: scroll;
+`;
+
 
 export const NavLink = styled(Link)`
   color: #fff;

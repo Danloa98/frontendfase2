@@ -2,8 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 import { Contenedor } from "./NavBarElements";
 import { Line,Bar, defaults } from "react-chartjs-2";
 import Grafica from "./Grafica";
+import GraficaBar from "./GraficaBarra";
 
-const baseUrl = "https://apirust4-4fgwmqspza-uc.a.run.app/get-all";
+class Pair {
+  constructor(first, second){
+      this.first = first;
+      this.second = second;
+  }
+}
+
+const baseUrl = "http://localhost:5000/get-all";
 
 function Logs() {
   const [logs, setLogs] = useState([]);
@@ -12,6 +20,7 @@ function Logs() {
   //-------REPORTE CANT DE INGRESOS POR COLA
   const rabitcount = useRef(0);
   const kafkacount = useRef(0);
+  
 
 
   useEffect(() => {
@@ -33,6 +42,62 @@ const contadorRabit=logs.map(({ game_id, players, game_name, winner,queue }, ind
   );
 })
 
+function top3Repeated(arr, n)
+    {
+        // There should be atleast two elements
+        if (n < 3) {
+            //document.write("Invalid Input");
+            return;
+        }
+ 
+        // Count Frequency of each element
+        arr.sort((a, b) => a - b)
+        let freq = new Map();
+        for (let i = 0; i < n; i++)
+            if (freq.has(arr[i].game_id))
+                freq.set(arr[i].game_id, 1 + freq.get(arr[i].game_id));
+            else
+                freq.set(arr[i].game_id, 1);
+
+        let x = new Pair();
+        let y = new Pair();
+        let z = new Pair();
+        x.first = y.first = z.first = Number.MIN_SAFE_INTEGER;
+ 
+        for (let curr of freq) {
+
+            if (parseInt(curr[1]) > x.first) {
+ 
+                // Update second and third largest
+                z.first = y.first;
+                z.second = y.second;
+                y.first = x.first;
+                y.second = x.second;
+ 
+                // Modify values of x Number
+                x.first = parseInt((curr[1]));
+                x.second = parseInt((curr[0]));
+            }
+
+            else if (parseInt((curr[1])) > y.first) {
+                // Modify values of third largest
+                z.first = y.first;
+                z.second = y.second;
+ 
+                // Modify values of second largest
+                y.first = parseInt((curr[1]));
+                y.second = parseInt((curr[0]));
+            }
+
+            else if (parseInt((curr[1])) > z.first) {
+ 
+                z.first = parseInt((curr[1]));
+                z.second = parseInt((curr[0]));
+            }
+        }
+        return [x.second, y.second, z.second]
+    }
+
 
 
   const getOperations = async() => {
@@ -53,14 +118,56 @@ const contadorRabit=logs.map(({ game_id, players, game_name, winner,queue }, ind
   console.log(logs)
   console.log("Cantidad de logs de RabbitMq",rabitcount.current)
   console.log("Cantidad de logs de Kafka",kafkacount.current)
+  console.log(top3Repeated(logs,logs.length))
+  const games=top3Repeated(logs,logs.length)
+  let flag=false
+  let flag2=false
+  let flag3=false
+  let gamex="";
+  let gamey="";
+  let gamez="";
+  const game1=logs.map(({ game_id, players, game_name, winner,queue }, index) => {
+      if(flag==false){
+    if(game_id==games[0]){
+      flag=true
+      gamex=game_name
+      return game_name
+    }
+  }
+    ;
+  })
 
+  const game2=logs.map(({ game_id, players, game_name, winner,queue }, index) => {
+    if(flag2==false){
+  if(game_id==games[1]){
+    flag2=true
+    gamey=game_name
+    return game_name
+  }
+}
+  ;
+})
+
+const game3=logs.map(({ game_id, players, game_name, winner,queue }, index) => {
+  if(flag3==false){
+if(game_id==games[2]){
+  flag3=true
+  gamez=game_name
+  return game_name
+}
+}
+;
+})
+
+
+  console.log("JUEGO MAS JUGADO ES:", gamex)
   
 
   return (
     <div>
       <Contenedor >
         <h1>{}</h1>
-    <table className="table" border="1">
+    <table className="table" border="2">
       <thead>
         <tr>
           <th>No</th>
@@ -94,7 +201,8 @@ const contadorRabit=logs.map(({ game_id, players, game_name, winner,queue }, ind
 
     <Contenedor>
 
-      <Grafica axis={["RabbitMq","Kafka"]} data={[rabitcount.current/2,kafkacount.current/2]} />
+      
+      <GraficaBar axis={[gamex,gamey,gamez]} data={[3,2,1]} />
       <Grafica axis={["RabbitMq","Kafka"]} data={[rabitcount.current/2,kafkacount.current/2]} />
 
 

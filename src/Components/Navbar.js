@@ -21,10 +21,10 @@ const Navbar = () => {
             <NavLink to='/Mongo' >
                <h3>MongoDB</h3>
             </NavLink>
-            <NavLink to='/Redis' >
+            <NavLink to='/Tidb' >
                 <h3>Redis</h3>
             </NavLink>
-            <NavLink to='/Tidb' >
+            <NavLink to='/Redis' >
                 <h3>TiDB</h3>
             </NavLink>
         </NavMenu>
