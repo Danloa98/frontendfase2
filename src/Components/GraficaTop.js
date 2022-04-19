@@ -1,16 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
-import { Link } from 'react-router-dom';
+
 
 import React from 'react'
 import {Button} from 'reactstrap'
+import { Link } from 'react-router-dom';
 import { Contenedor, ContenedorA,Nav2 } from "./NavBarElements";
-import GraficaTop from "./GraficaTop";
-//import Button from 'react-bulma-components/lib/components/button';
 
 
-function Redis() {
-   const [games, setGames] = useState([]);
+function GraficaTop() {
    const [players, setPlayers] = useState([]);
 
     const socket = useRef();
@@ -25,12 +23,11 @@ function Redis() {
         const interval = setInterval(() => {
           //getInfo();
         }, 5000);
-
-        socket.current.emit("tidb", "asd-prueba");
-        socket.current.on("tidb", async (mensaje) => {
-          console.log("Tidb");
+        socket.current.emit("top10", "asd-prueba");
+        socket.current.on("top10", async (mensaje) => {
+          console.log("TidbTOP10");
             console.log(mensaje)
-            llenar(mensaje)
+            llenar2(mensaje)
         });
 
         console.log("sss")
@@ -49,43 +46,40 @@ function Redis() {
         });
       };
     
-      async function llenar(data) {
+
+
+      async function llenar2(data) {
         console.log("Wenassssss");
         console.log(data);
         //console.log(data[0].vm)
-        setGames((tot) => data.slice(-10));
+        setPlayers((tot) => data);
         // setLista(oldArray => [...oldArray, data[data.length-1].process_list[data[data.length-1].process_list.length-1]])
       }
-
-
-
+    
     
 
   return (
     <div>
-              <ContenedorA >
-                  <Nav2><h1 >ULTIMOS 10 JUEGOS</h1></Nav2>
+        <ContenedorA>
+    
+                  <Nav2><h1 >TOP 10 JUGADORES</h1></Nav2>
     <table className="table" border="3">
       <thead>
         <tr>
           <th>No</th>
-          <th>game ID</th>
-          <th>game name</th>
-          <th>winner</th>         
+          <th>Jugador</th>
+          <th>Victorias</th>        
         </tr>
       </thead>
       <tbody>
-        {games.map(({ game_id, game_name, winner }, index) => {
+        {players.map(({ winner, victorias}, index) => {
           return (
             <tr>
               <td>
                 <b>{index+1}</b>
               </td>
-              <td>{game_id}</td>
-              <td>
-                  {game_name}
-              </td>
               <td>{winner}</td>
+              <td>{victorias}</td>
               
             </tr>
           );
@@ -94,12 +88,13 @@ function Redis() {
     </table>
     </ContenedorA>
 
-
-    <Button variant="success"><Link to="/top10" className="btn btn-primary"><h1>VER TOP10 Players</h1></Link></Button>{' '}
+    <Button variant="success"><Link to="/Redis" className="btn btn-primary"><h1>LAST 10 GAMES</h1></Link></Button>{' '}
     <Button variant="success"><Link to="/TidbStats" className="btn btn-primary"><h1>VER STATS DE PLAYERS</h1></Link></Button>{' '}
+
+
 
     </div>
   )
 }
 
-export default Redis
+export default GraficaTop

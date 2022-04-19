@@ -9,7 +9,7 @@ import GraficaTop from "./GraficaTop";
 //import Button from 'react-bulma-components/lib/components/button';
 
 
-function Redis() {
+function Playerstidb() {
    const [games, setGames] = useState([]);
    const [players, setPlayers] = useState([]);
 
@@ -26,8 +26,8 @@ function Redis() {
           //getInfo();
         }, 5000);
 
-        socket.current.emit("tidb", "asd-prueba");
-        socket.current.on("tidb", async (mensaje) => {
+        socket.current.emit("tidstats", "asd-prueba");
+        socket.current.on("tidstats", async (mensaje) => {
           console.log("Tidb");
             console.log(mensaje)
             llenar(mensaje)
@@ -53,7 +53,7 @@ function Redis() {
         console.log("Wenassssss");
         console.log(data);
         //console.log(data[0].vm)
-        setGames((tot) => data.slice(-10));
+        setGames((tot) => data);
         // setLista(oldArray => [...oldArray, data[data.length-1].process_list[data[data.length-1].process_list.length-1]])
       }
 
@@ -64,29 +64,24 @@ function Redis() {
   return (
     <div>
               <ContenedorA >
-                  <Nav2><h1 >ULTIMOS 10 JUEGOS</h1></Nav2>
+                  <Nav2><h1 >ESTADISTICAS DE JUGADORES</h1></Nav2>
     <table className="table" border="3">
       <thead>
         <tr>
           <th>No</th>
-          <th>game ID</th>
-          <th>game name</th>
-          <th>winner</th>         
+          <th>Jugador</th>
+          <th>Juegos ganados</th>         
         </tr>
       </thead>
       <tbody>
-        {games.map(({ game_id, game_name, winner }, index) => {
+        {games.map(({winner, victorias }, index) => {
           return (
             <tr>
               <td>
                 <b>{index+1}</b>
               </td>
-              <td>{game_id}</td>
-              <td>
-                  {game_name}
-              </td>
               <td>{winner}</td>
-              
+              <td>{victorias}</td>        
             </tr>
           );
         })}
@@ -96,10 +91,10 @@ function Redis() {
 
 
     <Button variant="success"><Link to="/top10" className="btn btn-primary"><h1>VER TOP10 Players</h1></Link></Button>{' '}
-    <Button variant="success"><Link to="/TidbStats" className="btn btn-primary"><h1>VER STATS DE PLAYERS</h1></Link></Button>{' '}
+    <Button variant="success"><Link to="/Redis" className="btn btn-primary"><h1>LAST 10 GAMES</h1></Link></Button>{' '}
 
     </div>
   )
 }
 
-export default Redis
+export default Playerstidb
