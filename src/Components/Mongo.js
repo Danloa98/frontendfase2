@@ -203,7 +203,7 @@ if(game_id==games[2]){
 
       
       <GraficaBar axis={[gamex,gamey,gamez]} data={[3,2,1]} />
-      <Grafica axis={["RabbitMq","Kafka"]} data={[rabitcount.current/2,kafkacount.current/2]} />
+      <Grafica axis={["RabbitMq","Kafka"]} data={[rabitcount.current,kafkacount.current]} />
 
 
       </Contenedor>
