@@ -11,7 +11,7 @@ class Pair {
   }
 }
 
-const baseUrl = "http://localhost:5000/get-all";
+const baseUrl = "https://apirust8-4fgwmqspza-uc.a.run.app/get-all";
 
 function Logs() {
   const [logs, setLogs] = useState([]);
@@ -30,7 +30,7 @@ function Logs() {
 
   }, [])
 
-const contadorRabit=logs.map(({ game_id, players, game_name, winner,queue }, index) => {
+const contadorRabit=logs.map(({ game_id, players, game_name, winner_number,queue }, index) => {
       
   if(queue=="RabbitMQ"){
   rabitcount.current=rabitcount.current+1
@@ -179,7 +179,7 @@ if(game_id==games[2]){
         </tr>
       </thead>
       <tbody>
-        {logs.map(({ game_id, players, game_name, winner,queue }, index) => {
+        {logs.map(({ game_id, players, game_name, winner_number,queue }, index) => {
           return (
             <tr>
               <td>
@@ -190,7 +190,7 @@ if(game_id==games[2]){
               <td>
                   {game_name}
               </td>
-              <td>{winner}</td>
+              <td>{winner_number}</td>
               <td>{queue}</td>
             </tr>
           );
